@@ -1,0 +1,15 @@
+<ion-content class="login-content" padding>
+
+    <ion-list class="login-form">
+        <ion-item no-padding>
+            <ion-label color="primary" floating>Usuario</ion-label>
+            <ion-input [(ngModel)]="loginForm.email" type="email"></ion-input>
+        </ion-item>
+        <ion-item no-padding>
+            <ion-label color="primary" floating>Contraseña</ion-label>
+            <ion-input [(ngModel)]="loginForm.password" type="password"></ion-input>
+        </ion-item>
+    </ion-list>
+    <button (tap)="login()" ion-button color="primary" full block>Entrar</button>
+
+</ion-content>

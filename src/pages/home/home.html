@@ -1,0 +1,52 @@
+<ion-header class="header-app">
+    <ion-navbar hideBackButton>
+        <h2 no-margin>ChatU</h2>
+        <ion-icon (tap)="logout()" name="exit">
+        </ion-icon>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="chats-container">
+    <ul class="tab-list">
+        <li (tap)="changeTab(0)" [ngClass]="{active: tabSelected(0)}" class="tab">Chats</li>
+        <!--<li (tap)="changeTab(1)" [ngClass]="{active: tabSelected(1)}" class="tab">Perfil</li>-->
+    </ul>
+    <section class="home-container" [ngSwitch]="someChatIsAvailable()">
+        <p class="no-conversations" *ngSwitchCase="false">
+            <span class="warning">Actualmente no hay conversaciones.</span>
+            <span>Puedes iniciar una pulsando el botón de crear una nueva conversación.</span>
+        </p>
+        <ion-list *ngSwitchCase="true" no-padding>
+            <ion-item (tap)="openChatDetails(chat['roomId'])" [attr.cId]="chat['id']" *ngFor='let chat of chats;' no-padding class="chat-item">
+                <aside [ngStyle]="{'background-image': 'url(' + getAvatar(chat['contact']) + ')'}" class='avatar-conversation' no-padding></aside>
+                <section col class="conversation-information" no-padding>
+                    <ion-row align-items-center>
+                        <ion-col col no-padding>
+                            <h2>
+                                <span class="status-user" [ngClass]="{'available': chat['available'], 'idle': !chat['available']}"></span>
+                                <span [innerText]="getNameAccordingCreatorRolOnConversation(chat)"></span>
+                            </h2>
+                        </ion-col>
+                        <!--<ion-col col-auto no-padding>
+                            <aside class="last-connection-info">
+                                <span [innerText]="chat['lastConnection']"></span>
+                            </aside>
+                        </ion-col>-->
+                    </ion-row>
+                    <section class="last-msg-section">
+                        <span class="text" [innerText]="getLastMessage(chat['roomId'])"></span>
+                        <!--<aside class="new-messages">
+                            <span [innerText]="chat['newMsgs']"></span>
+                        </aside>-->
+                    </section>
+                </section>
+            </ion-item>
+        </ion-list>
+    </section>
+
+    <ion-fab bottom right>
+        <button (tap)="createNewConversation()" ion-fab class="new-conversation">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

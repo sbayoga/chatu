@@ -1,0 +1,38 @@
+<ion-header class="header-app">
+    <ion-navbar hideBackButton>
+        <ion-icon (tap)="goToChatsList()" name="arrow-back"></ion-icon>
+        <section class="info-receiver">
+            <img [src]="getAvatarConversation()" alt="avatar" />
+            <aside class="name-lc">
+                <span [innerText]="getNameContact()"></span>
+            </aside>
+        </section>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content #content [ngSwitch]="chatHasMessages()" scrollDownOnLoad="true" class="messages-timeline" no-padding>
+    <!--[ngStyle]="{'background-image': 'url(assets/img/bg/dark_lights_bg.jpg)'}"-->
+    <p *ngSwitchCase="false" class="no-messages-placeholder">No hay mensajes para esta conversación.</p>
+    <ul *ngSwitchCase="true" class="list-message">
+        <li class="message" [ngClass]="getRolClass(msg)" *ngFor="let msg of chat['messages']" no-padding>
+            <aside class="message-container">
+                <p [innerText]="msg['text']"></p>
+            </aside>
+            <span class="timestamp" [innerText]="formatTimeStamp(msg['created'])"></span>
+            <aside class="arrow {{getArrow(msg)}}"></aside>
+        </li>
+    </ul>
+</ion-content>
+
+<ion-footer class="footer-fixed-area-send-messages">
+    <ion-toolbar>
+        <aside class="send-message-area">
+            <ion-icon class="element-area-send-message" name="camera"></ion-icon>
+            <ion-input [(ngModel)]="msgToSend" class="input-to-write-message element-area-send-message" no-border placeholder="Tu mensaje"></ion-input>
+        </aside>
+        <button (tap)="sendMessage()" *ngIf="showButtonSendMessage()" class="send-message-button" ion-button>
+           <ion-icon name="paper-plane"></ion-icon>
+        </button>
+    </ion-toolbar>
+</ion-footer>
